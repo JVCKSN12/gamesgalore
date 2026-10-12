@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamesGalore - 60+ Free Online Games</title>
+  <style>
+    /* Premium CSS UI Matrix */
+    :root {
+      --bg-main: #0a0a0c;
+      --bg-surface: #121217;
+      --bg-card: #16161f;
+      --border-color: #242433;
+      --text-main: #f4f4f6;
+      --text-muted: #9494a6;
+      --primary: #6c5ce7;
+      --primary-hover: #5849be;
+      --shadow-color: rgba(108, 92, 231, 0.25);
+    }
+
+    [data-theme="light"] {
+      --bg-main: #f4f5f8;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e4e9;
+      --text-main: #18191c;
+      --text-muted: #626773;
+      --primary: #6c5ce7;
+      --primary-hover: #5849be;
+      --shadow-color: rgba(108, 92, 231, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    header {
+      background-color: var(--bg-surface);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--primary);
+      box-shadow: 0 4px 25px var(--shadow-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--text-main);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      color: var(--primary);
+      text-shadow: 0 0 15px rgba(108, 92, 231, 0.4);
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .toolbar {
+      max-width: 1440px;
+      margin: 2rem auto 0;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background-color: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-main);
+      font-size: 1rem;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--shadow-color);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background-color: var(--bg-surface);
+      color: var(--text-muted);
+      border: 2px solid var(--border-color);
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 1.5rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    .counter-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .game-card {
+      background-color: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 20px var(--shadow-color);
+    }
+
+    .game-thumb {
+      height: 120px;
+      background: linear-gradient(135deg, var(--border-color), var(--bg-surface));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      position: relative;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .badge-trending {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #e74c3c;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    
+    .fav-btn.favorited { color: #e74c3c; }
+
+    .game-info {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .game-info h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-main);
+    }
+
+    .game-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      height: 36px;
+      overflow: hidden;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: var(--border-color);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      background-color: var(--border-color);
+      color: var(--text-main);
+      padding: 0.65rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .game-card:hover .btn {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: var(--bg-surface);
+      width: 95%; max-width: 1150px;
+      border-radius: 14px; border: 2px solid var(--primary);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 1rem; background-color: var(--bg-main);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .game-frame-container {
+      position: relative; padding-bottom: 56.25%; height: 0; background: #000;
+    }
+
+    .game-frame-container iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+    }
+
+    footer {
+      background-color: var(--bg-surface); text-align: center; padding: 2rem; color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo">Games<span>Galore</span></a>
+    <button class="theme-toggle-btn" id="themeToggle">☀️ Light Mode</button>
+  </header>
+
+  <section class="toolbar">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search across 60+ epic titles instantly...">
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-category="all">All Games</button>
+      <button class="filter-btn" data-category="fav">Favorites ❤️</button>
+      <button class="filter-btn" data-category="trending">Trending 🔥</button>
+      <button class="filter-btn" data-category="action">Action & FPS</button>
+      <button class="filter-btn" data-category="sports">Sports</button>
+      <button class="filter-btn" data-category="arcade">Arcade & Racing</button>
+      <button class="filter-btn" data-category="puzzle">Puzzle & Strategy</button>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="counter-label" id="gameCounter">Loading games library...</div>
+    <div class="game-grid" id="gameGrid"></div>
+  </main>
+
+  <div class="modal-overlay" id="gameModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalGameTitle">Playing Game</div>
+        <button class="close-btn" id="closeModalBtn" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="game-frame-container">
+        <iframe id="gameIframe" src="" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 GamesGalore. Powered by dynamic deployment infrastructure.</p>
+  </footer>
+
+  <script>
+    // 60-GAME ALL-STAR BROWSER INDEX MATRIX
+    const gamesDatabase = [
+      { id: "smashkarts", title: "Smash Karts", icon: "🏎️", category: "trending arcade", tags: "kart driving shooting combat multiplayer io", desc: "3D multiplayer kart combat arena game. Grab weapons and blow up opposing players.", url: "https://smashkarts.io" },
+      { id: "shellshock", title: "Shell Shockers", icon: "🍳", category: "trending action", tags: "eggs first person shooter gun multiplayer", desc: "The world's premier egg-based multiplayer first person shooter.", url: "https://shellshock.io" },
+      { id: "bloxd", title: "Bloxd.io", icon: "🟩", category: "trending action", tags: "minecraft block sandbox building parkour bedwars", desc: "Voxel multiplayer sandbox fields with building and survival servers.", url: "https://bloxd.io" },
+      { id: "motox3m", title: "Moto X3M", icon: "🏍️", category: "trending arcade", tags: "bike stunts racing motorcycle obstacles physics", desc: "Sprint through obstacle layers packed with crazy high-risk stunt loops.", url: "https://gamedistribution.com" },
+      { id: "soccerbros", title: "SoccerBros", icon: "⚽", category: "trending sports", tags: "football matches 1v1 soccer bros physics", desc: "Fast-paced 1v1 football showdown simulator with clean dribbles.", url: "https://soccerbros.gg" },
+Use code with caution.
+{ id: "basketbros", title: "BasketBros", icon: "🏀", category: "trending sports", tags: "basketball dunking hoop shooting sports arcade", desc: "High flying retro multiplayer hoops action. Fly up and slam dunk.", url: "basketbros.io" },
+{ id: "polytrack", title: "PolyTrack", icon: "⚡", category: "trending arcade", tags: "drift speed racer time trial tracks low poly", desc: "Ultra-speed time trial drift racer loaded with loop structures.", url: "https://polytrack.io" },
+{ id: "paperio2", title: "Paper.io 2", icon: "🖍️", category: "arcade", tags: "capture paint territory snake arena multiplier", desc: "Draw lines to enclose and capture massive chunks of terrain tiles.", url: "https://paper-io.com" },
+{ id: "voxiom", title: "Voxiom.io", icon: "🧱", category: "action", tags: "veck battle royale crafting mining voxel builder fps", desc: "Multiplayer voxel tactical FPS combining combat with item crafting.", url: "voxiom.io" },
+{ id: "soccerlegends", title: "Soccer Legends", icon: "🏆", category: "sports", tags: "big heads heads tournament tournament league football", desc: "Big-head cartoon football clashes. Fire elemental trick shots.", url: "gamedistribution.com" },
+{ id: "alchemy2", title: "Little Alchemy 2", icon: "⚗️", category: "puzzle", tags: "combinations chemistry elements elements synthesis merge", desc: "Combine elements to discover complex compounds and materials.", url: "https://littlealchemy2.com" },
+{ id: "gatsio", title: "Gats.io", icon: "🎯", category: "action", tags: "top down geometric armor loadouts shooting gun", desc: "Tactical top-down gun battles. Customize armour values.", url: "https://gats.io" },
+{ id: "zombs", title: "Zombs Royale", icon: "☣️", category: "action", tags: "battle royale top down parachute looting survive circle", desc: "Fast top-down 2D battle royale arena. Drop in and survive.", url: "https://zombsroyale.io" },
+{ id: "retrobowl", title: "Retro Bowl", icon: "🏈", category: "sports", tags: "football roster coaching management pixels gridiron", desc: "The ultimate pixel management simulation. Guide your team to victory.", url: "gamedistribution.com" },
+{ id: "drifthunters", title: "Drift Hunters", icon: "🚘", category: "arcade", tags: "racing car simulation setup physics tuner tuning", desc: "Full 3D realistic simulator. Tune components and slide corners.", url: "gamedistribution.com" },
+// 50 NEW ADDITIONAL ADDICTIONS BELOW
+{ id: "krunker", title: "Krunker.io", icon: "🔫", category: "trending action", tags: "fast fps movement bunnyhop skill pixel blocks shooter", desc: "Fast-paced blocky 3D first person shooter featuring intense movement systems.", url: "https://krunker.io" },
+{ id: "diepio", title: "Diep.io", icon: "🔵", category: "action", tags: "tanks shapes upgrade levels bullet hell classes io", desc: "Destroy obstacles and enemy tanks. Upgrade attributes and class layouts.", url: "https://diep.io" },
+{ id: "slitherio", title: "Slither.io", icon: "🐍", category: "arcade", tags: "snakes glow food boost speed circle snake trap", desc: "Consume glowing orbs, trap adversarial snakes, and grow massive.", url: "https://slither.io" },
+{ id: "kour", title: "Kour.io", icon: "🎯", category: "action", tags: "fps modern loadouts weapons web matchmaking gun", desc: "Clean, optimized browser-based multiplayer FPS with weapon setups.", url: "https://kour.io" },
+{ id: "skribbl", title: "Skribbl.io", icon: "✏️", category: "puzzle", tags: "drawing guessing multiplayer word casual voice trivia", desc: "Draw custom assigned prompt words and guess what other users are painting.", url: "https://skribbl.io" },
+{ id: "vloggersg", title: "Vlogger Go Viral", icon: "📹", category: "arcade", tags: "clicker idle tycoon stream creator video click upgrades", desc: "Tap to create videos, upgrade equipment rigs, and claim internet fame.", url: "gamedistribution.com" },
+{ id: "madalin", title: "Madalin Cars 2", icon: "🏎️", category: "arcade", tags: "supercars racing sandbox stunts ramp multiplayer driving", desc: "Drive high-performance supercars across a massive playground stunt map.", url: "gamedistribution.com" },
+{ id: "cubefield", title: "Cubefield", icon: "🔳", category: "arcade", tags: "evade retro speed score endless reflex keyboard runner", desc: "Navigate your ship at high speeds through infinite hazardous block layouts.", url: "cubefield.org" },
+{ id: "ducklife3", title: "Duck Life 3", icon: "🦆", category: "arcade", tags: "duck evolution genetics level training championship runner", desc: "Select generic duck breeds and train skills to sweep racing ladders.", url: "gamedistribution.com" },
+{ id: "geometry", title: "Geometry Dash (Clone)", icon: "🔺", category: "trending arcade", tags: "jump rhythm cube spikes timing hardcore trial neon", desc: "Jump in sync with energetic music over rows of high-risk neon hazards.", url: "gamedistribution.com" },
+{ id: "minesweeper", title: "Minesweeper Pro", icon: "💣", category: "puzzle", tags: "logic board flags numbers cells calculation brain grid", desc: "Clear grids without hitting subterranean explosive mines using logical clues.", url: "gamedistribution.com" },
+{ id: "chess", title: "Master Chess", icon: "👑", category: "puzzle", tags: "tactical logic multiplayer artificial intelligence casual strategy", desc: "Play classic international chess against a powerful computer bot engine.", url: "gamedistribution.com" },
+{ id: "stickmanfps", title: "Stickman Archer", icon: "🏹", category: "action", tags: "physics archery headshot arrows turn based stick puppet", desc: "Aim, adjust vector curves, and launch arrows to clear enemy stickmen.", url: "gamedistribution.com" },
+{ id: "run3", title: "Run 3", icon: "🏃", category: "arcade", tags: "space gravity running tunnels jump platformer levels", desc: "Sprint through outer-space tunnels while shifting structural gravity rules.", url: "gamedistribution.com" },
+{ id: "agario", title: "Agar.io", icon: "🦠", category: "arcade", tags: "cells split grow consume scale eat leader board io", desc: "The original cell combat game. Split your cell weight to trap smaller entities.", url: "https://agar.io" },
+{ id: "lordz", title: "Lordz.io", icon: "👑", category: "puzzle", tags: "army building strategy conquer knights gold fantasy clash", desc: "Recruit soldiers, summon dragons, and command standard fantasy battalions.", url: "https://lordz.io" },
+{ id: "survivio", title: "Surviv.io", icon: "🎒", category: "action", tags: "2d armor weapons loot fast battle royale maps team", desc: "High-intensity 2D battle royale simulator. Pick gun modules quickly.", url: "https://surviv.io" },
+{ id: "evowars", title: "EvoWars.io", icon: "⚔️", category: "action", tags: "evolve levels sword slashing melee giant combat weapon", desc: "Slash weapons to grow your warrior size into a giant medieval champion.", url: "https://evowars.io" },
+{ id: "wingsio", title: "Wings.io", icon: "🛩️", category: "action", tags: "planes lasers shooting air dogfight missile lock sky", desc: "Command supersonic jet fighters in high-altitude laser dogfights.", url: "https://wingsio.com" },
+{ id: "defly", title: "Defly.io", icon: "🚁", category: "puzzle", tags: "helicopter borders claim territory walls shooting dots", desc: "Fly custom helicopter nodes to paint protective grid line barriers.", url: "https://defly.io" },
+{ id: "holeio", title: "Hole.io", icon: "🕳️", category: "arcade", tags: "consume city blocks gravity physics timed score match", desc: "Control a vacuum-gravity vortex swallowing cars, streets, and skyscrapers.", url: "https://hole-io.com" },
+{ id: "aquapark", title: "Aquapark.io", icon: "滑", category: "arcade", tags: "water slide slide racing racing flying shortcuts physics", desc: "Race down endless giant water park tubes, jumping gaps for shortcut boosts.", url: "https://aquapark.io" },
+{ id: "tictactoe", title: "Tic Tac Toe Premium", icon: "❌", category: "puzzle", tags: "board casual matching quick puzzle strategy multiplayer", desc: "The ultimate classic alignment board game featuring intelligent computers.", url: "gamedistribution.com" },
+{ id: "superbike", title: "Superbike Hero", icon: "🏍️", category: "sports", tags: "racing tracks velocity speed upgrade championship grand", desc: "Lean around track corners to achieve record-shattering grand prix times.", url: "gamedistribution.com" },
+{ id: "penalty3d", title: "Penalty Challenge", icon: "🥅", category: "sports", tags: "football free kick cup targeting stadium tournament goalkeeper", desc: "Advanced 3D target point calculation soccer tournament shooting.", url: "gamedistribution.com" },
+{ id: "tabletennis", title: "Ping Pong Chaos", icon: "🏓", category: "sports", tags: "paddle reflex retro multiplayer bounce table physics", desc: "Chaotic paddle movement simulator. Calculate angles to trick competitors.", url: "gamedistribution.com" },
+{ id: "basketrandom", title: "Basket Random", icon: "🏀", category: "trending sports", tags: "ragdoll physics physics crazy dunking funny keys matches", desc: "Crazy ragdoll 2-player physics basketball. Tap to bounce wildly.", url: "gamedistribution.com" },
+{ id: "boxingrandom", title: "Boxing Random", icon: "🥊", category: "sports", tags: "ragdoll punches funny physics matches knockout round", desc: "Tap to throw weird ragdoll balance-breaking punches to trigger knockouts.", url: "gamedistribution.com" },
+{ id: "soccerby", title: "Soccer Random", icon: "⚽", category: "sports", tags: "ragdoll football goals field beach snow funny keys", desc: "Weird balancing ragdoll football matches across snowy fields and beaches.", url: "gamedistribution.com" },
+{ id: "crossyroad", title: "Crossy Road (Clone)", icon: "🐔", category: "arcade", tags: "chicken river crossing traffic endless blocks hazard", desc: "Guide animal sprites across rapid railway rows, rivers, and traffic avenues.", url: "gamedistribution.com" },
+{ id: "subwaysurf", title: "Subway Runner", icon: "🏄", category: "trending arcade", tags: "infinite hoverboard running dodge track score coins trains", desc: "Sprint along subway rail grid lines dodging oncoming metal trains.", url: "gamedistribution.com" },
+{ id: "templerun", title: "Tomb Runner", icon: "🏃", category: "arcade", tags: "infinite traps temple gold escape reflex agility speed", desc: "Sprint down collapsing stone ruins dodging standard trap layouts.", url: "gamedistribution.com" },
+{ id: "stack", title: "Stack Jump", icon: "🥞", category: "arcade", tags: "timing towers physics heights tap casual balance", desc: "Jump precisely at the correct intervals to build immense tower stacks.", url: "gamedistribution.com" },
+{ id: "cutrope", title: "Cut the Rope (Clone)", icon: "🐸", category: "puzzle", tags: "physics logic candy feeding rope cuts gravity calculation", desc: "Slice complex rope lines to drop candy rewards into a small frog's mouth.", url: "gamedistribution.com" },
+{ id: "bubble", title: "Bubble Shooter", icon: "🔮", category: "puzzle", tags: "matching pop color board connection aim arcade", desc: "Match identical bubble configurations to clear rows from the board canvas.", url: "gamedistribution.com" },
+{ id: "2048", title: "2048 Fusion", icon: "🔢", category: "puzzle", tags: "math tiles combinations board score puzzle calculation sliding", desc: "Slide identically valued mathematical grid tiles together to double scores.", url: "gamedistribution.com" },
+{ id: "mahjong", title: "Mahjong Classic", icon: "🀄", category: "puzzle", tags: "matching tiles board traditional logic connections patience", desc: "Match identical exposed tile profiles to clear traditional board sets.", url: "gamedistribution.com" },
+{ id: "solitaire", title: "Klondike Solitaire", icon: "🃏", category: "puzzle", tags: "cards decks suites organization sorting poker board", desc: "Sort card decks chronologically by suit structures in this classic game.", url: "gamedistribution.com" },
+{ id: "tetris", title: "Block Puzzle Tetrix", icon: "🧱", category: "trending puzzle", tags: "blocks fitting rows geometric line clears rotation strategy", desc: "Rotate geometric tile clusters to clear horizontal board paths.", url: "gamedistribution.com" },
+{ id: "sudoku", title: "Sudoku Master", icon: "✏️", category: "puzzle", tags: "numbers mathematical logic grid filling matrix cells rows", desc: "Fill standard square cell matrix modules with unrepeated number sequences.", url: "gamedistribution.com" },
+{ id: "wordsearch", title: "Ultimate Word Search", icon: "🔤", category: "puzzle", tags: "vocabulary letters links connection hidden word search matrix", desc: "Connect adjacent jumbled grid letters to locate hidden vocabulary words.", url: "gamedistribution.com" },
+{ id: "pacman", title: "Tap-Man Arcade", icon: "🍕", category: "arcade", tags: "ghosts dots maze retro maze escape pellets runner", desc: "Navigate retro grid corridors eating dots while escaping colorful ghosts.", url: "gamedistribution.com" },
+{ id: "spaceinv", title: "Space Invaders Retro", icon: "👾", category: "action", tags: "aliens laser shooting arcade rows wave defensive bunker", desc: "Defend your bottom row bases against marching rows of alien crafts.", url: "gamedistribution.com" },
+{ id: "pinball", title: "Classic Pinball", icon: "🔮", category: "arcade", tags: "bumpers paddles score springs launch physics ball", desc: "Launch heavy silver balls down specialized bumpers to max high scores.", url: "gamedistribution.com" },
+{ id: "hangman", title: "Hangman Challenge", icon: "😵", category: "puzzle", tags: "letters word guessing hidden lives vocabulary kids casual", desc: "Guess the target spelling configurations before your error limits run out.", url: "gamedistribution.com" }
+];
+const searchInput = document.getElementById('searchInput');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const gameGrid = document.getElementById('gameGrid');
+const gameCounter = document.getElementById('gameCounter');
+const themeToggle = document.getElementById('themeToggle');
+const gameModal = document.getElementById('gameModal');
+const gameIframe = document.getElementById('gameIframe');
+const modalGameTitle = document.getElementById('modalGameTitle');
+let activeCategory = 'all';
+let favorites = JSON.parse(localStorage.getItem('gamesgalore_favs')) || [];
+// --- Light/Dark Engine ---
+if (localStorage.getItem('gamesgalore_theme') === 'light') {
+document.documentElement.setAttribute('data-theme', 'light');
+themeToggle.textContent = '🌙 Dark Mode';
+}
+themeToggle.addEventListener('click', () => {
+if (document.documentElement.getAttribute('data-theme') === 'light') {
+document.documentElement.removeAttribute('data-theme');
+themeToggle.textContent = '☀️ Light Mode';
+localStorage.setItem('gamesgalore_theme', 'dark');
+} else {
+document.documentElement.setAttribute('data-theme', 'light');
+themeToggle.textContent = '🌙 Dark Mode';
+localStorage.setItem('gamesgalore_theme', 'light');
+}
+});
+// --- Build Cards Automatically ---
+function initializeCatalog() {
+gameGrid.innerHTML = '';
+gamesDatabase.forEach(game => {
+const isFav = favorites.includes(game.id);
+const hasTrendingBadge = game.category.includes('trending') ? <span class="badge-trending">Trending</span> : '';
+const cardHTML = <div class="game-card" data-id="${game.id}" data-title="${game.title.toLowerCase()} ${game.tags}" data-category="${game.category}"> <button class="fav-btn ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${game.id}', event)">${isFav ? '❤️' : '★'}</button> <div class="game-thumb">${game.icon}${hasTrendingBadge}</div> <div class="game-info"> <span class="tag">${game.category.split(' ')[0].toUpperCase()}</span> <h3>${game.title}</h3> <p>${game.desc}</p> <button class="btn" onclick="openGame('${game.url}', '${game.title}')">Play Now</button> </div> </div>;
+gameGrid.insertAdjacentHTML('beforeend', cardHTML);
+});
+filterGames();
+}
+// --- Favorites Core Handling ---
+window.toggleFavorite = function(id, event) {
+event.stopPropagation();
+if (favorites.includes(id)) {
+favorites = favorites.filter(favId => favId !== id);
+} else {
+favorites.push(id);
+}
+localStorage.setItem('gamesgalore_favs', JSON.stringify(favorites));
+initializeCatalog();
+};
+// --- Search and Filtration Loops ---
+function filterGames() {
+const searchTerm = searchInput.value.toLowerCase();
+const cards = document.querySelectorAll('.game-card');
+let visibleCount = 0;
+cards.forEach(card => {
+const id = card.getAttribute('data-id');
+const titleText = card.getAttribute('data-title');
+const categories = card.getAttribute('data-category').split(' ');
+const matchesSearch = titleText.includes(searchTerm);
+let matchesCategory = false;
+if (activeCategory === 'all') matchesCategory = true;
+else if (activeCategory === 'fav') matchesCategory = favorites.includes(id);
+else matchesCategory = categories.includes(activeCategory);
+if (matchesSearch && matchesCategory) {
+card.style.display = 'flex';
+visibleCount++;
+} else {
+card.style.display = 'none';
+}
+});
+gameCounter.textContent = Showing ${visibleCount} games;
+}
+searchInput.addEventListener('input', filterGames);
+filterBtns.forEach(btn => {
+btn.addEventListener('click', () => {
+filterBtns.forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+activeCategory = btn.getAttribute('data-category');
+filterGames();
+});
+});
+// --- Player Modal Control Canvas ---
+window.openGame = function(url, title) {
+modalGameTitle.textContent = "Live Stream: " + title;
+gameIframe.src = url;
+gameModal.style.display = 'flex';
+};
+window.closeModal = function() {
+gameModal.style.display = 'none';
+gameIframe.src = '';
+};
+gameModal.addEventListener('click', (e) => {
+if (e.target === gameModal) closeModal();
+});
+// Run setup loop
+initializeCatalog();
